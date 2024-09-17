@@ -2,7 +2,9 @@ const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
-const cors = require('cors'); // Import cors
+const postRoutes = require('./routes/postRoutes'); // Import postRoutes
+const cors = require('cors');
+
 // Load environment variables
 dotenv.config();
 
@@ -17,6 +19,7 @@ app.use(express.json()); // For parsing application/json
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/posts', postRoutes); // Add route for posts
 
 // Start the server
 const PORT = process.env.PORT || 5000;
