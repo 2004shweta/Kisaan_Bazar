@@ -2,7 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
-
+const cors = require('cors'); // Import cors
 // Load environment variables
 dotenv.config();
 
@@ -12,6 +12,7 @@ connectDB();
 const app = express();
 
 // Middleware
+app.use(cors()); // Enable CORS for all origins
 app.use(express.json()); // For parsing application/json
 
 // Routes
