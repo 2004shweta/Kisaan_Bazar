@@ -7,7 +7,6 @@ import FAQ from "./pages/FAQ"; // Ensure correct path
 import Contact from "./pages/Contact"; // Ensure correct path
 import Profile from "./pages/Profile"; // Ensure correct path
 import Footer from "./component/Footer";
-import CreatePost from "./pages/CreatePost";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -42,10 +41,6 @@ function App() {
         <Route
           path="/profile"
           element={isAuthenticated ? <Profile handleLogout={handleLogout} /> : <Home />}
-        />
-        <Route
-          path="/create-post"
-          element={isAuthenticated ? <CreatePost /> : <Home />}
         />
       </Routes>
       <Footer/>
