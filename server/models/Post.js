@@ -7,6 +7,14 @@ const postSchema = new mongoose.Schema({
     ref: 'User', // Reference to the User schema
     required: true,
   },
+  farmerName: {
+    type: String,
+    required: true,
+  },
+  mobileNumber: {
+    type: String, // Or use Number if you prefer
+    required: true,
+  },
   description: {
     type: String,
     required: true,

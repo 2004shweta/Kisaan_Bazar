@@ -1,14 +1,23 @@
 const Post = require('../models/Post');
+const User = require('../models/User');
 
 // Create a new post
 exports.createPost = async (req, res) => {
-  const { description, plants, amount, quantity } = req.body;
+  const { description, plants, amount, quantity, mobileNumber } = req.body;
   const userId = req.user.userId; // Extract userId from the request object
 
   try {
+    // Fetch the user to get the farmer's name
+    const user = await User.findById(userId).select('name');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
     // Create a new post
     const newPost = new Post({
       userId,
+      farmerName: user.name, // Set the farmer's name from the User schema
+      mobileNumber, // Use the mobile number provided in the request body
       description,
       plants,
       amount,
@@ -26,7 +35,7 @@ exports.createPost = async (req, res) => {
 exports.getAllPosts = async (req, res) => {
   try {
     // Fetch all posts with populated user details
-    const posts = await Post.find().populate('userId', 'name');
+    const posts = await Post.find().populate('userId');
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
@@ -39,7 +48,7 @@ exports.getPostById = async (req, res) => {
 
   try {
     // Find the post by ID and populate user details
-    const post = await Post.findById(id).populate('userId', 'name');
+    const post = await Post.findById(id).populate('userId');
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
