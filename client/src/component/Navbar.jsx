@@ -1,28 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ isAuthenticated, handleLogout }) => {
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    try {
+      console.log('Logging out...');
+      await handleLogout(); // Ensure handleLogout is async if needed
+      console.log('Redirecting to home...');
+      navigate('/'); // Redirect to home after logout
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
-          </div>
-        </div>
         <Link className="btn btn-ghost text-xl" to="/">
           KisaanBazaar
         </Link>
@@ -55,12 +50,26 @@ const Navbar = () => {
             </Link>
           </li>
         </ul>
-        <Link
-          className="btn"
-          to="/signup"
-        >
-          Sign Up
-        </Link>
+
+        {isAuthenticated ? (
+          <div className="flex items-center space-x-4">
+            <Link className="btn" to="/profile">
+              Profile
+            </Link>
+            {/* <button className="btn btn-error" onClick={logout}>
+              Logout
+            </button> */}
+          </div>
+        ) : (
+          <div className="flex items-center space-x-4">
+            <Link className="btn" to="/login">
+              Login
+            </Link>
+            {/* <Link className="btn" to="/signup">
+              Sign Up
+            </Link> */}
+          </div>
+        )}
       </div>
     </div>
   );

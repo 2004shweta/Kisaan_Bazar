@@ -99,3 +99,22 @@ exports.updateUser = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+exports.getUser = async (req, res) => {
+  const userId = req.user.userId; // Extract userId from the token
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(userId).select('-password'); // Exclude password from response
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};

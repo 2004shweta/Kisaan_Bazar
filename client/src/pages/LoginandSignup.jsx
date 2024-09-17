@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const LoginAndSignup = () => {
+const LoginAndSignup = ({ setIsAuthenticated }) => {
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({ name: "", email: "", password: "", role: "" });
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const handleToggle = () => {
-    setIsLogin(!isLogin);
-    setErrorMessage("");  // Clear error message when toggling forms
-  };
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    name: '',
+    role: '',
+  });
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,22 +21,18 @@ const LoginAndSignup = () => {
     e.preventDefault();
     try {
       const url = isLogin
-        ? "http://localhost:5000/api/auth/login"
-        : "http://localhost:5000/api/auth/register";
-        
-      // Send a POST request with form data
+        ? 'http://localhost:5000/api/auth/login'
+        : 'http://localhost:5000/api/auth/register';
+
       const { data } = await axios.post(url, formData);
 
-      // Handle successful response
-      console.log("Response:", data);
-      // Optionally save JWT token in localStorage
-      localStorage.setItem("token", data.token);
-
-      // Redirect or perform other actions after successful login/signup
-      alert("Success!");
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('role', data.role); // Ensure the role is set correctly
+      setIsAuthenticated(true);
+      navigate('/');  // Navigate to home page
     } catch (error) {
-      console.error("Error:", error.response ? error.response.data : error.message);
-      setErrorMessage(error.response ? error.response.data.message : "Something went wrong!");
+      console.error('Error:', error.response ? error.response.data : error.message);
+      setErrorMessage(error.response ? error.response.data.message : 'Something went wrong!');
     }
   };
 
@@ -114,18 +112,18 @@ const LoginAndSignup = () => {
               <button
                 type="submit"
                 className="btn"
-                style={{ backgroundColor: "#0ca712", borderColor: "#0ca712" }}
+                style={{ backgroundColor: '#0ca712', borderColor: '#0ca712' }}
               >
-                {isLogin ? "Login" : "Sign Up"}
+                {isLogin ? 'Login' : 'Sign Up'}
               </button>
             </div>
           </form>
           <div className="form-control mt-4 text-center">
             <p>
-              {isLogin ? "Don’t have an account?" : "Already have an account?"}{" "}
-              <a href="#" onClick={handleToggle} style={{ color: "#0ca712" }}>
-                {isLogin ? "Sign Up" : "Login"}
-              </a>
+              {isLogin ? "Don't have an account?" : 'Already have an account?'}
+              <button className="btn-link" onClick={() => setIsLogin(!isLogin)}>
+                {isLogin ? 'Sign Up' : 'Login'}
+              </button>
             </p>
           </div>
         </div>

@@ -1,23 +1,54 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./component/Navbar"; // Adjust path if necessary
-
-import LoginAndSignup from "./pages/LoginandSignup"; // Adjust path if necessary
-import Home from "./pages/Home";         // Ensure this is correct
-import FAQ from "./pages/FAQ";           // Ensure this is correct
-import Contact from "./pages/Contact";   // Ensure this is correct
-
+import Navbar from "./component/Navbar"; // Ensure correct path
+import LoginAndSignup from "./pages/LoginandSignup"; // Ensure correct path
+import Home from "./pages/Home"; // Ensure correct path
+import FAQ from "./pages/FAQ"; // Ensure correct path
+import Contact from "./pages/Contact"; // Ensure correct path
+import Profile from "./pages/Profile"; // Ensure correct path
+import Footer from "./component/Footer";
+import CreatePost from "./pages/CreatePost";
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Check for token in localStorage to maintain login state
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+  };
+
   return (
     <Router>
-      <Navbar />
+      <Navbar isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/login" element={<LoginAndSignup />} />
-        <Route path="/signup" element={<LoginAndSignup />} />
+        <Route
+          path="/login"
+          element={<LoginAndSignup setIsAuthenticated={setIsAuthenticated} />}
+        />
+        <Route
+          path="/signup"
+          element={<LoginAndSignup setIsAuthenticated={setIsAuthenticated} />}
+        />
+        <Route
+          path="/profile"
+          element={isAuthenticated ? <Profile handleLogout={handleLogout} /> : <Home />}
+        />
+        <Route
+          path="/create-post"
+          element={isAuthenticated ? <CreatePost /> : <Home />}
+        />
       </Routes>
+      <Footer/>
     </Router>
   );
 }

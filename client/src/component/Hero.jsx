@@ -5,7 +5,7 @@ const Hero = () => {
     <div className="hero min-h-screen relative">
       {/* Video Background */}
       <video
-        className="absolute top-0 left-0 w-full object-cover"
+        className="absolute top-0 left-0 w-full h-full object-cover"
         autoPlay
         loop
         muted
