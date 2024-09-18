@@ -1,21 +1,25 @@
-// src/pages/Profile.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import FarmerDash from './FarmerDash';
+import ContractorDash from './ContractorDash';
 
 const Profile = ({ handleLogout }) => {
+  const [role, setRole] = useState(''); // Role of the user, e.g., 'farmer' or 'contractor'
+
+  useEffect(() => {
+    // Fetch the user's role from localStorage, API, or some global state
+    const userRole = localStorage.getItem('role'); // Assuming role is stored in localStorage
+    setRole(userRole);
+  }, []);
+
   return (
     <div className="hero bg-base-200 min-h-screen flex items-center justify-center">
-      <div className="card bg-base-100 w-full max-w-lg shadow-2xl">
-        <div className="card-body">
-          <h2 className="text-2xl font-bold mb-4">Profile</h2>
-          <p>User Role: {/* Display user role if available */}</p>
-          <button 
-            className="btn btn-error mt-4"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
-        </div>
-      </div>
+      {role === 'farmer' ? (
+        <FarmerDash handleLogout={handleLogout} />
+      ) : role === 'contractor' ? (
+        <ContractorDash handleLogout={handleLogout} />
+      ) : (
+        <p>Loading...</p> // Or redirect if role is invalid
+      )}
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React from "react";
+import Testimonials from "./Testimonials";
 
 const Hero = () => {
   return (
@@ -28,7 +29,9 @@ const Hero = () => {
           {/* <button className="btn btn-primary">Get Started</button> */}
         </div>
       </div>
+      
     </div>
+    
   );
 };
 

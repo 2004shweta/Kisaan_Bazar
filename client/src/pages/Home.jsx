@@ -3,6 +3,7 @@ import Hero from '../component/Hero'; // Adjust path if necessary
 import Farmer from '../component/Farmer'; // Adjust path if necessary
 import Contractor from '../component/Contractor'; // Adjust path if necessary
 import axios from 'axios'; // Import axios for making API requests
+import Testimonials from '../component/Testimonials'; // Adjust path if necessary
 
 const Home = () => {
   const [userRole, setUserRole] = useState(null);
@@ -46,7 +47,14 @@ const Home = () => {
   } else if (userRole === 'contractor') {
     return <Contractor />;
   } else {
-    return <Hero />;
+    return (
+      <div>
+        <Hero />
+        <div className="mt-10"> {/* Add margin or any other styling if needed */}
+          <Testimonials />
+        </div>
+      </div>
+    );
   }
 };
 

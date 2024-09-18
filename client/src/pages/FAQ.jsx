@@ -12,7 +12,7 @@ const FAQ = () => {
     <main className="p-5 bg-light-blue">
       <div className="flex justify-center items-start my-2">
         <div className="w-full sm:w-10/12 md:w-1/2 my-1">
-          <h2 className="text-xl font-semibold text-vnet-blue mb-2">FAQ - Order, Shipping, Etc.</h2>
+          <h2 className="text-xl font-semibold text-vnet-blue mb-2">FAQ - Order, Contract Etc.</h2>
           <ul className="flex flex-col">
             {faqData.map((item, index) => (
               <li key={index} className="bg-white my-2 shadow-lg">
@@ -71,11 +71,11 @@ const faqData = [
   },
   {
     question: 'What shipping options do you have?',
-    answer: 'For USA domestic orders we offer FedEx and USPS shipping.'
+    answer: 'Through various delievery channnels.'
   },
   {
     question: 'What payment methods do you accept?',
-    answer: 'Any method of payments acceptable by you. For example: We accept MasterCard, Visa, American Express, PayPal, JCB Discover, Gift Cards, etc.'
+    answer: 'Any method of payments acceptable by you. For example: We accept MasterCard, Visa, UPI, Direct Transfer etc.'
   }
 ];
 
