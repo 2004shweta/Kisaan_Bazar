@@ -17,12 +17,22 @@ const FetchPosts = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setPosts(response.data);
+      // Add random dates and durations to each post
+      const postsWithDates = response.data.map(post => ({
+        ...post,
+        createdAt: generateRandomDate(new Date(2024, 0, 1), new Date()),
+        dealDuration: Math.floor(Math.random() * 6) + 1 // Random duration between 1 and 6 months
+      }));
+      setPosts(postsWithDates);
     } catch (error) {
       console.error('Error fetching posts:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const generateRandomDate = (start, end) => {
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
   };
 
   const openModal = (post) => {
@@ -73,6 +83,17 @@ const FetchPosts = () => {
     };
   }, [posts]);
 
+  const formatDate = (date) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString(undefined, options);
+  };
+
+  const calculateEndDate = (startDate, durationMonths) => {
+    const endDate = new Date(startDate);
+    endDate.setMonth(endDate.getMonth() + durationMonths);
+    return formatDate(endDate);
+  };
+
   return (
     <div className="mt-8 px-4 lg:px-8">
       <style jsx>{`
@@ -117,6 +138,9 @@ const FetchPosts = () => {
                   <p className="text-sm text-gray-700"><span className="font-medium">Status:</span> {post.isActive ? 'Active' : 'Inactive'}</p>
                 </div>
                 <p className="text-sm text-gray-700 mt-4"><span className="font-medium">Farmer:</span> {post.farmerName}</p>
+                <p className="text-sm text-gray-700 mt-2"><span className="font-medium">Posted on:</span> {formatDate(post.createdAt)}</p>
+                <p className="text-sm text-gray-700 mt-2"><span className="font-medium">Deal Duration:</span> {post.dealDuration} months</p>
+                <p className="text-sm text-gray-700 mt-2"><span className="font-medium">Deal Ends on:</span> {calculateEndDate(post.createdAt, post.dealDuration)}</p>
               </div>
               <button 
                 className="mt-6 w-full bg-green-500 text-white py-3 px-4 rounded-md hover:bg-green-600 transition-colors duration-300 text-lg font-semibold" 
@@ -135,7 +159,9 @@ const FetchPosts = () => {
           <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full">
             <h2 className="text-3xl font-semibold mb-6 text-green-700">Bid on {currentPost?.plants.join(', ')}</h2>
             <p className="mb-3 text-lg"><span className="font-medium">Crop:</span> {currentPost?.description}</p>
-            <p className="mb-6 text-lg"><span className="font-medium">Farmer's Ask:</span> ₹{currentPost?.amount}</p>
+            <p className="mb-3 text-lg"><span className="font-medium">Farmer's Ask:</span> ₹{currentPost?.amount}</p>
+            <p className="mb-3 text-lg"><span className="font-medium">Posted on:</span> {formatDate(currentPost?.createdAt)}</p>
+            <p className="mb-6 text-lg"><span className="font-medium">Deal Ends on:</span> {calculateEndDate(currentPost?.createdAt, currentPost?.dealDuration)}</p>
             <div className="mb-6">
               <label htmlFor="bidAmount" className="block text-lg font-medium text-gray-700 mb-2">Your Offer</label>
               <input
