@@ -6,7 +6,6 @@ import Home from "./pages/Home"; // Ensure correct path
 import FAQ from "./pages/FAQ"; // Ensure correct path
 import Contact from "./pages/Contact"; // Ensure correct path
 import Profile from "./pages/Profile"; // Ensure correct path
-import Footer from "./component/Footer";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -43,7 +42,6 @@ function App() {
           element={isAuthenticated ? <Profile handleLogout={handleLogout} /> : <Home />}
         />
       </Routes>
-      <Footer/>
     </Router>
   );
 }

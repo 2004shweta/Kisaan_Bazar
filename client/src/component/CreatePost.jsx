@@ -38,6 +38,8 @@ const FarmerPosts = ({ token, onDelete, onUpdate }) => {
       });
       onDelete(postId);
       fetchPosts(); // Refresh the posts after deletion
+      alert('Post deleted successfully!');
+
     } catch (error) {
       console.error('Error deleting post:', error);
     }
