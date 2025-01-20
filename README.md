@@ -28,7 +28,7 @@ Assured Farming is a web-based platform designed to bridge the gap between certi
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/Harsh1428rao/Assured_Farming.git
+   git clone https://github.com/eshaalal/Kisaan_Bazar.git
    ```
 
 2. **Install Dependencies:**
@@ -36,7 +36,11 @@ Assured Farming is a web-based platform designed to bridge the gap between certi
    Navigate to the project directory and install the required dependencies:
 
    ```bash
-   cd Assured_Farming
+   cd client
+   npm install
+   ```
+   ```bash
+   cd server
    npm install
    ```
 
