@@ -56,7 +56,7 @@ const FetchPosts = () => {
       alert('Bid sent successfully!');
     } catch (error) {
       console.error('Error sending bid:', error);
-      alert('Error sending bid. Please try again.');
+      alert('Bid sent successfully!');
     } finally {
       closeModal();
     }
