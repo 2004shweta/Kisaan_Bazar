@@ -41,8 +41,8 @@ function ContractorDash() {
   const fetchContractorDetails = async () => {
     // Replace with your API call
     const contractorData = {
-      name: 'Rajiv Sharma',
-      email: 'rajiv@example.com',
+      name: 'Shweta Jaiswal',
+      email: 'shweta.jaiswal@gmail.com',
     };
     setContractor(contractorData);
   };

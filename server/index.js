@@ -19,7 +19,7 @@ app.use(express.json()); // For parsing application/json
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/posts', postRoutes); // Add route for posts
+app.use('/api/posts', postRoutes); 
 
 // Start the server
 const PORT = process.env.PORT || 5000;

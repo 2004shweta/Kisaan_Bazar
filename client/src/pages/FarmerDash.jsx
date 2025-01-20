@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import Carousel from '../component/Carousel';
 
 function FarmerDash() {
   const [farmer, setFarmer] = useState({ name: '', email: '' });
@@ -22,8 +23,8 @@ function FarmerDash() {
 
   const fetchFarmerDetails = async () => {
     const farmerData = {
-      name: 'Madhav Verma',
-      email: 'madhav@example.com'
+      name: 'Esha Lal',
+      email: 'eshalal9693@gmail.com'
     };
     setFarmer(farmerData);
   };
@@ -89,8 +90,10 @@ function FarmerDash() {
   };
 
   return (
+    
     <div className="flex flex-col min-h-screen bg-gray-100">
-      <div className="bg-green-100 p-4 mb-4">
+      <Carousel/>
+      <div className="bg-green-100 p-4 mb-4 ">
         <div className="container mx-auto">
           <h1 className="text-2xl font-bold">Farmer: {farmer.name}</h1>
           <p className="text-lg">Email: {farmer.email}</p>
