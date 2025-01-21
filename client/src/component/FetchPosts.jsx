@@ -12,7 +12,7 @@ const FetchPosts = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/posts/', {
+      const response = await axios.get('https://kisaan-bazar.onrender.com/api/posts/', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -49,7 +49,7 @@ const FetchPosts = () => {
     if (!currentPost) return;
 
     try {
-      await axios.post('http://localhost:5000/api/bids/', 
+      await axios.post('https://kisaan-bazar.onrender.com/api/bids/', 
         { postId: currentPost._id, bidAmount },
         { headers: { Authorization: `Bearer ${token}` } }
       );

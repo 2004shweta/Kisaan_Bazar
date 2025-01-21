@@ -21,8 +21,8 @@ const LoginAndSignup = ({ setIsAuthenticated }) => {
     e.preventDefault();
     try {
       const url = isLogin
-        ? 'http://localhost:5000/api/auth/login'
-        : 'http://localhost:5000/api/auth/register';
+        ? 'https://kisaan-bazar.onrender.com/api/auth/login'
+        : 'https://kisaan-bazar.onrender.com/api/auth/register';
 
       const { data } = await axios.post(url, formData);
 
