@@ -1,20 +1,22 @@
 {
-    "projects": {
-      "client": {
-        "root": "client",
-        "buildCommand": "npm run build",
-        "outputDirectory": "dist",
-        "installCommand": "npm install"
-      },
-      "server": {
-        "root": "server",
-        "functions": {
-          "index.js": {
-            "runtime": "nodejs18.x",
-            "entrypoint": "index.js"
-          }
+    "builds": [
+      {
+        "src": "client/package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "dist"
         }
+      },
+      {
+        "src": "server/index.js",
+        "use": "@vercel/node"
       }
-    }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "server/index.js"
+      }
+    ]
   }
   
