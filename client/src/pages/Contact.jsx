@@ -69,19 +69,7 @@ const ContactUs = () => {
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto py-8 px-4">
-        <div className="flex justify-center">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3441.911005285574!2d75.6909327144019!3d31.253255681433364!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391a9089cd71f61f%3A0x3d684c9690d14a5!2sLovely%20Professional%20University%2C%20Jalandhar%2C%20Punjab%20144401%2C%20India!5e0!3m2!1sen!2sus!4v1649982737577!5m2!1sen!2sin"
-            height="450"
-            width="100%"
-            style={{ border: 0, maxWidth: '800px' }}
-            allowFullScreen=""
-            aria-hidden="false"
-            tabIndex="0"
-          ></iframe>
-        </div>
-      </section>
+      
     </div>
   );
 };
