@@ -1,6 +1,6 @@
 
 
-# Assured Farming 🌾
+# Kisaan Bazaar 🌾
 
 Assured Farming is a web-based platform designed to bridge the gap between certified contractors and farmers. It aims to provide farmers with reliable market access and income stability by facilitating contract farming. The platform ensures the automation of farming agreements, real-time traceability, and dispute resolution mechanisms, making the farming process more transparent and efficient.
 
@@ -8,9 +8,6 @@ Assured Farming is a web-based platform designed to bridge the gap between certi
 
 - **Farmers and Contractors:** Separate interfaces for both farmers and contractors. 👩‍🌾👨‍🌾
 - **Smart Contracts:** Automation of farming agreements to ensure that terms are met, and payments are processed on time. 🤖
-- **Traceability:** Full transparency in the supply chain from farm to market. 🔗
-- **Dispute Handling:** Mechanisms for resolving disputes between farmers and contractors. ⚖️
-- **Secure Transactions:** Ensures safe and reliable contract execution with built-in payment gateways. 💳
 - **User-Friendly Dashboard:** Farmers can post crop details, and contractors can view and connect with farmers. 🖥️
 - **Database Management:** Mongoose and Express.js for managing farmers' and contractors' data. 📊
 - **Review System:** Allows farmers and contractors to provide feedback for further improvements. ⭐
