@@ -64,7 +64,5 @@ Assured Farming is a web-based platform designed to bridge the gap between certi
 - Expand blockchain functionality for enhanced security. 🔒
 - Integration of AI-powered dispute resolution. 🧠
 
-## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
