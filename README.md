@@ -7,7 +7,6 @@ Assured Farming is a web-based platform designed to bridge the gap between certi
 ## Features
 
 - **Farmers and Contractors:** Separate interfaces for both farmers and contractors. 👩‍🌾👨‍🌾
-- **Smart Contracts:** Automation of farming agreements to ensure that terms are met, and payments are processed on time. 🤖
 - **User-Friendly Dashboard:** Farmers can post crop details, and contractors can view and connect with farmers. 🖥️
 - **Database Management:** Mongoose and Express.js for managing farmers' and contractors' data. 📊
 - **Review System:** Allows farmers and contractors to provide feedback for further improvements. ⭐
@@ -17,7 +16,6 @@ Assured Farming is a web-based platform designed to bridge the gap between certi
 - **Frontend:** React (with Vite and Tailwind CSS for styling) ⚛️
 - **Backend:** Node.js, Express.js 🌐
 - **Database:** MongoDB (with Mongoose for schema management) 🗄️
-- **Smart Contracts:** Blockchain integration for contract automation ⛓️
 - **Additional Tools:** Git, GitHub for version control 🛠️
 
 ## How to Run the Project
