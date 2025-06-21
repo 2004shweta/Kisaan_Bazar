@@ -6,6 +6,13 @@ import Home from "./pages/Home"; // Ensure correct path
 import FAQ from "./pages/FAQ"; // Ensure correct path
 import Contact from "./pages/Contact"; // Ensure correct path
 import Profile from "./pages/Profile"; // Ensure correct path
+import FarmerDash from "./pages/FarmerDash";
+import ContractorDash from "./pages/ContractorDash";
+import NotFound from "./pages/NotFound"; // Import NotFound component
+import PrivateRoute from "./component/common/PrivateRoute"; // Import PrivateRoute component
+import { PostProvider } from "./context/PostContext";
+import { Toaster } from 'react-hot-toast';
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -24,24 +31,50 @@ function App() {
 
   return (
     <Router>
-      <Navbar isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/contact" element={<Contact/>} />
-        <Route
-          path="/login"
-          element={<LoginAndSignup setIsAuthenticated={setIsAuthenticated} />}
-        />
-        <Route
-          path="/signup"
-          element={<LoginAndSignup setIsAuthenticated={setIsAuthenticated} />}
-        />
-        <Route
-          path="/profile"
-          element={isAuthenticated ? <Profile handleLogout={handleLogout} /> : <Home />}
-        />
-      </Routes>
+      <div data-theme="kisaan" className="min-h-screen bg-green-50 text-green-900">
+        <Navbar isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
+        <Toaster />
+        <PostProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route
+              path="/login"
+              element={<LoginAndSignup setIsAuthenticated={setIsAuthenticated} />}
+            />
+            <Route
+              path="/signup"
+              element={<LoginAndSignup setIsAuthenticated={setIsAuthenticated} />}
+            />
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute isAuthenticated={isAuthenticated}>
+                  <Profile handleLogout={handleLogout} />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/farmer-dashboard"
+              element={
+                <PrivateRoute isAuthenticated={isAuthenticated}>
+                  <FarmerDash />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/contractor-dashboard"
+              element={
+                <PrivateRoute isAuthenticated={isAuthenticated}>
+                  <ContractorDash />
+                </PrivateRoute>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </PostProvider>
+      </div>
     </Router>
   );
 }

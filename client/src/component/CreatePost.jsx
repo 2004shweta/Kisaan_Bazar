@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import axios from 'axios';
 import FarmerSell from './FarmerSell';
 import farmer3 from '../assets/image/farmer3.jpg'
@@ -53,14 +54,14 @@ const CreatePost = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        alert('Post updated successfully!');
+        toast.success('Post updated successfully!');
       } else {
         await axios.post('https://kisaan-bazar.onrender.com/api/posts/', formData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        alert('Posted successfully!');
+        toast.success('Posted successfully!');
       }
       setIsModalOpen(false);
       resetForm();
@@ -110,7 +111,7 @@ const CreatePost = () => {
         },
       });
       setPosts((prevPosts) => prevPosts.filter(post => post._id !== postId));
-      alert('Post deleted successfully!');
+      toast.success('Post deleted successfully!');
     } catch (error) {
       console.error('Error deleting post:', error);
     }

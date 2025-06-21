@@ -2,12 +2,17 @@
 import React from 'react';
 import CreatePost from './CreatePost';
 import Carousel from './Carousel';
+import News from './News';
+import Footer from './Footer';
 
 const Contractor = () => {
   return (
     <>
     <Carousel/>
-    <CreatePost/></>
+    <CreatePost/>
+    <News />
+    <Footer />
+    </>
   );
 };
 

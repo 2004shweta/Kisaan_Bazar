@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaUserTie, FaLeaf, FaHandshake, FaRupeeSign, FaCheckCircle, FaClock, FaTruck, FaCheck } from 'react-icons/fa';
 
 function StarRating({ rating }) {
   const fullStars = Math.floor(rating);
@@ -9,7 +10,7 @@ function StarRating({ rating }) {
       {[...Array(5)].map((_, index) => (
         <span
           key={index}
-          className={`text-2xl ${
+          className={`text-xl ${
             index < fullStars
               ? 'text-yellow-400'
               : index === fullStars && hasHalfStar
@@ -20,7 +21,7 @@ function StarRating({ rating }) {
           {index < fullStars || (index === fullStars && hasHalfStar) ? '★' : '☆'}
         </span>
       ))}
-      <span className="ml-2 text-gray-600">{rating.toFixed(1)}</span>
+      <span className="ml-2 text-green-700 font-semibold text-sm">{rating.toFixed(1)}</span>
     </div>
   );
 }
@@ -39,29 +40,55 @@ function ContractorDash() {
   }, []);
 
   const fetchContractorDetails = async () => {
-    // Replace with your API call
-    const contractorData = {
-      name: 'Shweta Jaiswal',
-      email: 'shweta.jaiswal@gmail.com',
-    };
-    setContractor(contractorData);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // Handle case where token is not available
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/auth/profile', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setContractor({ name: data.name, email: data.email });
+      } else {
+        console.error('Failed to fetch contractor details');
+      }
+    } catch (error) {
+      console.error('Error fetching contractor details:', error);
+    }
   };
 
   const fetchContracts = async () => {
-    // Replace with your API call
-    const contractsData = [
-      { id: 1, productName: 'Tomatoes', farmer: 'Madhav Verma', amount: '₹500' },
-      { id: 2, productName: 'Potatoes', farmer: 'Anil Kumar', amount: '₹600' },
-      { id: 3, productName: 'Wheat', farmer: 'Ram Singh', amount: '₹550' },
-      { id: 4, productName: 'Rice', farmer: 'Pawan Patel', amount: '₹700' },
-      { id: 5, productName: 'Onions', farmer: 'Mohan Lal', amount: '₹400' },
-      { id: 6, productName: 'Carrots', farmer: 'Suresh Pandey', amount: '₹450' },
-    ];
-    setContracts(contractsData);
+    // This fetches all posts, which are considered "Available Contracts"
+    try {
+      const response = await fetch('/api/posts');
+      if (response.ok) {
+        const data = await response.json();
+        // Assuming the API returns an array of posts
+        // Mapping post data to contract format
+        const formattedContracts = data.map(post => ({
+          id: post._id,
+          productName: post.plants.join(', ') || 'N/A',
+          farmer: post.farmerName,
+          amount: `₹${post.amount}`,
+        }));
+        setContracts(formattedContracts);
+      } else {
+        console.error('Failed to fetch contracts');
+      }
+    } catch (error) {
+      console.error('Error fetching contracts:', error);
+    }
   };
 
   const fetchSuccessfulContracts = async () => {
-    // Replace with your API call
+    // TODO: Replace with your API call when backend is ready
     const successfulContractsData = [
       { id: 1, productName: 'Tomatoes', farmer: 'Madhav Verma', rating: 4.5, weight: 500 },
       { id: 2, productName: 'Potatoes', farmer: 'Anil Kumar', rating: 5, weight: 1000 },
@@ -72,7 +99,7 @@ function ContractorDash() {
   };
 
   const fetchOngoingDeals = async () => {
-    // Replace with your API call
+    // TODO: Replace with your API call when backend is ready
     const ongoingDealsData = [
       { id: 1, productName: 'Apples', farmer: 'Vikram Yadav', closedDate: '2024-05-15', expectedCompletion: '2024-09-15', status: 'In Progress' },
       { id: 2, productName: 'Grapes', farmer: 'Sanjay Gupta', closedDate: '2024-06-01', expectedCompletion: '2024-08-30', status: 'Pending Delivery' },
@@ -86,36 +113,60 @@ function ContractorDash() {
     window.location.href = '/login';
   };
 
+  // Status chip color logic
+  const statusChip = (status) => {
+    if (status === 'In Progress') return 'bg-blue-100 text-blue-800';
+    if (status === 'Pending Delivery') return 'bg-yellow-100 text-yellow-800';
+    if (status === 'Quality Check') return 'bg-green-100 text-green-800';
+    return 'bg-gray-100 text-gray-700';
+  };
+
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      {/* Contractor Details at the top */}
-      <div className="bg-blue-600 text-white p-6 mb-6">
-        <div className="container mx-auto">
-          <h1 className="text-3xl font-bold">Contractor Dashboard</h1>
-          <p className="text-xl mt-2">Welcome, {contractor.name}</p>
-          <p className="text-lg">Email: {contractor.email}</p>
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100">
+      {/* Header */}
+      <div className="relative bg-gradient-to-r from-green-400 via-green-200 to-green-100 py-8 shadow-lg mb-8 rounded-b-3xl overflow-hidden">
+        {/* Decorative SVG */}
+        <svg className="absolute top-0 left-0 w-64 h-32 opacity-10" viewBox="0 0 400 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="200" cy="50" rx="200" ry="50" fill="#bbf7d0" />
+        </svg>
+        <div className="container mx-auto flex flex-col md:flex-row items-start md:items-center justify-between relative z-10 gap-6 px-4">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center shadow-lg border-4 border-white">
+              <FaUserTie className="text-green-600 text-3xl" />
+            </div>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-extrabold text-green-900 mb-1 drop-shadow-lg">Contractor Dashboard</h1>
+              <p className="text-base md:text-lg text-green-800 font-semibold">Welcome, <span className="font-bold">{contractor.name}</span></p>
+              <p className="text-green-700">{contractor.email}</p>
+            </div>
+          </div>
+          <button
+            className="px-6 py-3 bg-red-500 text-white rounded-full font-bold shadow-lg hover:bg-red-600 transition-colors text-lg"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Available Contracts</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {contracts.map((contract) => (
-            <div key={contract.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">{contract.productName}</h3>
-                <p className="text-gray-600 mb-4">Available contract for {contract.productName}.</p>
-                <div className="mb-4">
-                  <p className="font-semibold">Farmer: {contract.farmer}</p>
-                  <p className="text-gray-600">Amount Offered: {contract.amount}</p>
+      {/* Available Contracts */}
+      <div className="container mx-auto px-4 mb-12">
+        <h2 className="text-3xl font-bold mb-6 text-green-800 flex items-center gap-2"><FaHandshake className="text-green-500" /> Available Contracts</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {contracts.map((contract, idx) => (
+            <div key={contract.id} className="bg-white rounded-3xl shadow-xl border border-green-100 overflow-hidden hover:shadow-2xl transition-shadow duration-300 relative group">
+              {/* Badge */}
+              <span className="absolute top-4 right-4 bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full shadow group-hover:bg-green-200 transition">NEW</span>
+              <div className="p-6 flex flex-col gap-2">
+                <div className="flex items-center gap-3 mb-2">
+                  <FaLeaf className="text-green-400 text-2xl" />
+                  <h3 className="text-2xl font-bold text-green-800">{contract.productName}</h3>
                 </div>
-                <div className="flex justify-end space-x-2">
-                  <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors">
-                    Accept
-                  </button>
-                  <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors">
-                    Decline
-                  </button>
+                <p className="text-green-700 mb-2 flex items-center gap-2"><FaUserTie className="text-green-400" /> Farmer: <span className="font-semibold">{contract.farmer}</span></p>
+                <p className="text-green-600 mb-4 flex items-center gap-2"><FaRupeeSign className="text-green-400" /> Amount Offered: <span className="font-semibold">{contract.amount}</span></p>
+                <div className="flex justify-end gap-2 mt-auto">
+                  <button className="px-4 py-2 bg-green-500 text-white rounded-full font-semibold shadow hover:bg-green-600 transition">Accept</button>
+                  <button className="px-4 py-2 bg-red-400 text-white rounded-full font-semibold shadow hover:bg-red-500 transition">Decline</button>
                 </div>
               </div>
             </div>
@@ -124,32 +175,31 @@ function ContractorDash() {
       </div>
 
       {/* Ongoing Deals Table */}
-      <div className="container mx-auto px-4 mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Ongoing Deals</h2>
-        <div className="bg-white shadow-md rounded-lg overflow-hidden overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+      <div className="container mx-auto px-4 mb-12">
+        <h2 className="text-3xl font-bold mb-6 text-green-800 flex items-center gap-2"><FaClock className="text-green-500" /> Ongoing Deals</h2>
+        <div className="bg-white shadow-xl rounded-3xl border border-green-100 overflow-hidden overflow-x-auto">
+          <table className="min-w-full divide-y divide-green-100">
+            <thead className="bg-green-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Farmer</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Closed Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expected Completion</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Product</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Farmer</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Closed Date</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Expected Completion</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Status</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {ongoingDeals.map((deal) => (
-                <tr key={deal.id}>
-                  <td className="px-6 py-4 whitespace-nowrap">{deal.productName}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{deal.farmer}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{deal.closedDate}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{deal.expectedCompletion}</td>
+            <tbody className="bg-white divide-y divide-green-50">
+              {ongoingDeals.map((deal, idx) => (
+                <tr key={deal.id} className={idx % 2 === 0 ? 'bg-green-50/60' : ''}>
+                  <td className="px-6 py-4 whitespace-nowrap font-semibold text-green-800">{deal.productName}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-green-700">{deal.farmer}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-green-600">{deal.closedDate}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-green-600">{deal.expectedCompletion}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      deal.status === 'In Progress' ? 'bg-blue-100 text-blue-800' :
-                      deal.status === 'Pending Delivery' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-green-100 text-green-800'
-                    }`}>
+                    <span className={`px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full shadow-sm ${statusChip(deal.status)}`}>
+                      {deal.status === 'In Progress' && <FaClock className="inline mr-1" />}
+                      {deal.status === 'Pending Delivery' && <FaTruck className="inline mr-1" />}
+                      {deal.status === 'Quality Check' && <FaCheckCircle className="inline mr-1" />}
                       {deal.status}
                     </span>
                   </td>
@@ -161,24 +211,24 @@ function ContractorDash() {
       </div>
 
       {/* Successful Contracts Table */}
-      <div className="container mx-auto px-4 mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Successful Contracts</h2>
-        <div className="bg-white shadow-md rounded-lg overflow-hidden overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+      <div className="container mx-auto px-4 mb-12">
+        <h2 className="text-3xl font-bold mb-6 text-green-800 flex items-center gap-2"><FaCheck className="text-green-500" /> Successful Contracts</h2>
+        <div className="bg-white shadow-xl rounded-3xl border border-green-100 overflow-hidden overflow-x-auto">
+          <table className="min-w-full divide-y divide-green-100">
+            <thead className="bg-green-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Farmer</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Weight (kg)</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Product</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Farmer</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Weight (kg)</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-green-700 uppercase tracking-wider">Rating</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {successfulContracts.map((contract) => (
-                <tr key={contract.id}>
-                  <td className="px-6 py-4 whitespace-nowrap">{contract.productName}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{contract.farmer}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{contract.weight}</td>
+            <tbody className="bg-white divide-y divide-green-50">
+              {successfulContracts.map((contract, idx) => (
+                <tr key={contract.id} className={idx % 2 === 0 ? 'bg-green-50/60' : ''}>
+                  <td className="px-6 py-4 whitespace-nowrap font-semibold text-green-800">{contract.productName}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-green-700">{contract.farmer}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-green-600">{contract.weight}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <StarRating rating={contract.rating} />
                   </td>
@@ -186,18 +236,6 @@ function ContractorDash() {
               ))}
             </tbody>
           </table>
-        </div>
-      </div>
-
-      {/* Logout Button at bottom right */}
-      <div className="container mx-auto px-4 py-4 mt-auto">
-        <div className="flex justify-end">
-          <button
-            className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
         </div>
       </div>
     </div>

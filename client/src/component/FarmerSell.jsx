@@ -12,35 +12,35 @@ function FarmerSell() {
         <p className="text-gray-600">Choose from the fresh produce below:</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
+        <div className="bg-green-50 shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 hover:bg-green-100 border border-green-100">
           <img src={Vegetables} alt="Vegetables" className="w-full h-36 object-cover" />
           <div className="p-4">
-            <h3 className="text-lg font-bold text-gray-900">Vegetables</h3>
-            <p className="text-gray-600">Fresh vegetables available for sale.</p>
+            <h3 className="text-lg font-bold text-green-700">Vegetables</h3>
+            <p className="text-green-600">Fresh vegetables available for sale.</p>
           </div>
         </div>
 
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
+        <div className="bg-green-50 shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 hover:bg-green-100 border border-green-100">
           <img src={Pulses} alt="Pulses" className="w-full h-36 object-cover" />
           <div className="p-4">
-            <h3 className="text-lg font-bold text-gray-900">Pulses</h3>
-            <p className="text-gray-600">High-quality pulses harvested fresh.</p>
+            <h3 className="text-lg font-bold text-green-700">Pulses</h3>
+            <p className="text-green-600">High-quality pulses harvested fresh.</p>
           </div>
         </div>
 
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
+        <div className="bg-green-50 shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 hover:bg-green-100 border border-green-100">
           <img src={Rice1} alt="Rice" className="w-full h-36 object-cover" />
           <div className="p-4">
-            <h3 className="text-lg font-bold text-gray-900">Rice</h3>
-            <p className="text-gray-600">Rice available for sale.</p>
+            <h3 className="text-lg font-bold text-green-700">Rice</h3>
+            <p className="text-green-600">Rice available for sale.</p>
           </div>
         </div>
 
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
+        <div className="bg-green-50 shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 hover:bg-green-100 border border-green-100">
           <img src={Fruits} alt="Fresh Fruits" className="w-full h-36 object-cover" />
           <div className="p-4">
-            <h3 className="text-lg font-bold text-gray-900">Fresh Fruits</h3>
-            <p className="text-gray-600">Fresh fruits available for sale.</p>
+            <h3 className="text-lg font-bold text-green-700">Fresh Fruits</h3>
+            <p className="text-green-600">Fresh fruits available for sale.</p>
           </div>
         </div>
       </div>

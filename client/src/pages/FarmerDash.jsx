@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Carousel from '../component/Carousel';
+import Footer from '../component/Footer';
 
 function FarmerDash() {
   const [farmer, setFarmer] = useState({ name: '', email: '' });
@@ -22,11 +23,15 @@ function FarmerDash() {
   }, []);
 
   const fetchFarmerDetails = async () => {
-    const farmerData = {
-      name: 'Esha Lal',
-      email: 'eshalal9693@gmail.com'
-    };
-    setFarmer(farmerData);
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      const user = JSON.parse(userData);
+      const farmerData = {
+        name: user.name,
+        email: user.email
+      };
+      setFarmer(farmerData);
+    }
   };
 
   const fetchBids = async () => {
@@ -90,40 +95,50 @@ function FarmerDash() {
   };
 
   return (
-    
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      <Carousel/>
-      <div className="bg-green-100 p-4 mb-4 ">
-        <div className="container mx-auto">
-          <h1 className="text-2xl font-bold">Farmer: {farmer.name}</h1>
-          <p className="text-lg">Email: {farmer.email}</p>
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-green-50 via-white to-yellow-50">
+      {/* Header Section */}
+      <div className="relative bg-gradient-to-r from-green-200 via-green-100 to-yellow-100 py-10 shadow-lg mb-8">
+        <div className="container mx-auto flex flex-col items-center justify-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-green-800 mb-2 drop-shadow-lg text-center">
+            Kisaan Bazaar Farmer Dashboard
+          </h1>
+          <p className="text-lg md:text-2xl text-green-700 text-center max-w-xl mb-2">
+            Welcome, <span className="font-bold">{farmer.name}</span>
+          </p>
+          <p className="text-green-600 text-center">{farmer.email}</p>
         </div>
+        {/* Decorative SVG */}
+        <svg className="absolute top-0 left-0 w-64 h-32 opacity-10" viewBox="0 0 400 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="200" cy="50" rx="200" ry="50" fill="#bbf7d0" />
+        </svg>
       </div>
-
-      <div className="flex-grow container mx-auto px-4 space-y-6">
+      <div className="container mx-auto px-4 flex-grow space-y-10">
+        {/* Carousel */}
+        <Carousel/>
+        {/* Current Bids */}
         <section>
-          <h2 className="text-xl font-semibold mb-4">Current Bids</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <h2 className="text-2xl font-bold mb-4 text-green-700">Current Bids</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {bids.map(bid => (
-              <div key={bid.id} className="bg-white rounded-lg shadow-md p-4">
-                <h3 className="font-bold">{bid.productName}</h3>
-                <p className="text-sm text-gray-600">Freshly harvested produce available for sale.</p>
-                <div className="mt-2">
+              <div key={bid.id} className="bg-white rounded-2xl shadow-xl border border-green-100 p-6 flex flex-col justify-between hover:shadow-2xl transition-shadow duration-300">
+                <h3 className="font-bold text-lg text-green-800 mb-1">{bid.productName}</h3>
+                <p className="text-sm text-gray-600 mb-2">Freshly harvested produce available for sale.</p>
+                <div className="mb-2">
                   <p><span className="font-semibold">Contractor:</span> {bid.contractor}</p>
                   <p><span className="font-semibold">Amount Offered:</span> {bid.amount}</p>
                 </div>
                 <div className="mt-4 flex justify-end space-x-2">
-                  <button className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Accept</button>
-                  <button className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">Decline</button>
+                  <button className="px-4 py-2 bg-green-600 text-white rounded-lg font-semibold shadow hover:bg-green-700 transition">Accept</button>
+                  <button className="px-4 py-2 bg-red-500 text-white rounded-lg font-semibold shadow hover:bg-red-600 transition">Decline</button>
                 </div>
               </div>
             ))}
           </div>
         </section>
-
+        {/* Crop Sales Chart */}
         <section>
-          <h2 className="text-xl font-semibold mb-4">Crop Sales - Last 3 Months</h2>
-          <div className="bg-white p-4 rounded-lg shadow-md" style={{ height: '400px' }}>
+          <h2 className="text-2xl font-bold mb-4 text-green-700">Crop Sales - Last 3 Months</h2>
+          <div className="bg-white p-6 rounded-2xl shadow-xl border border-green-100" style={{ height: '400px' }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={monthlySales}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -131,20 +146,20 @@ function FarmerDash() {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="wheat" fill="#8884d8" />
-                <Bar dataKey="rice" fill="#82ca9d" />
-                <Bar dataKey="tomatoes" fill="#ffc658" />
-                <Bar dataKey="potatoes" fill="#ff7300" />
+                <Bar dataKey="wheat" fill="#4ade80" />
+                <Bar dataKey="rice" fill="#facc15" />
+                <Bar dataKey="tomatoes" fill="#f87171" />
+                <Bar dataKey="potatoes" fill="#a3e635" />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </section>
-
+        {/* Contractor Statistics */}
         <section>
-          <h2 className="text-xl font-semibold mb-4">Contractor Statistics</h2>
+          <h2 className="text-2xl font-bold mb-4 text-green-700">Contractor Statistics</h2>
           <div className="overflow-x-auto">
-            <table className="w-full bg-white shadow-md rounded-lg">
-              <thead className="bg-gray-200">
+            <table className="w-full bg-white shadow-xl rounded-2xl border border-green-100">
+              <thead className="bg-green-50">
                 <tr>
                   <th className="p-3 text-left">Contractor</th>
                   <th className="p-3 text-left">Successful Contracts</th>
@@ -163,21 +178,21 @@ function FarmerDash() {
             </table>
           </div>
         </section>
-
+        {/* Ongoing Contracts */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4">Ongoing Contracts</h2>
-          <div className="bg-white shadow-md rounded-lg overflow-hidden overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+          <h2 className="text-2xl font-bold mb-4 text-green-700">Ongoing Contracts</h2>
+          <div className="bg-white shadow-xl rounded-2xl border border-green-100 overflow-hidden overflow-x-auto">
+            <table className="min-w-full divide-y divide-green-100">
+              <thead className="bg-green-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Farmer</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Closed Date</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expected Completion</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">Product</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">Farmer</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">Closed Date</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">Expected Completion</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">Status</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-green-100">
                 {ongoingDeals.map((deal) => (
                   <tr key={deal.id}>
                     <td className="px-6 py-4 whitespace-nowrap">{deal.productName}</td>
@@ -199,12 +214,12 @@ function FarmerDash() {
             </table>
           </div>
         </section>
-
+        {/* Last Month's Successful Contracts */}
         <section>
-          <h2 className="text-xl font-semibold mb-4">Last Month's Successful Contracts</h2>
+          <h2 className="text-2xl font-bold mb-4 text-green-700">Last Month's Successful Contracts</h2>
           <div className="overflow-x-auto">
-            <table className="w-full bg-white shadow-md rounded-lg">
-              <thead className="bg-gray-200">
+            <table className="w-full bg-white shadow-xl rounded-2xl border border-green-100">
+              <thead className="bg-green-50">
                 <tr>
                   <th className="p-3 text-left">Crop</th>
                   <th className="p-3 text-left">Quantity</th>
@@ -225,12 +240,12 @@ function FarmerDash() {
             </table>
           </div>
         </section>
-
+        {/* Total Crop Sales Summary */}
         <section>
-          <h2 className="text-xl font-semibold mb-4">Total Crop Sales Summary</h2>
+          <h2 className="text-2xl font-bold mb-4 text-green-700">Total Crop Sales Summary</h2>
           <div className="overflow-x-auto">
-            <table className="w-full bg-white shadow-md rounded-lg">
-              <thead className="bg-gray-200">
+            <table className="w-full bg-white shadow-xl rounded-2xl border border-green-100">
+              <thead className="bg-green-50">
                 <tr>
                   <th className="p-3 text-left">Crop</th>
                   <th className="p-3 text-left">Quantity Sold</th>
@@ -249,18 +264,18 @@ function FarmerDash() {
             </table>
           </div>
         </section>
-      </div>
-
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex justify-end">
+        {/* Logout Button */}
+        <div className="flex justify-end mt-8">
           <button
-            className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+            className="px-8 py-3 bg-red-500 text-white rounded-xl font-bold shadow-lg hover:bg-red-600 transition text-lg"
             onClick={handleLogout}
           >
             Logout
           </button>
         </div>
       </div>
+      {/* Footer at the bottom */}
+      <Footer />
     </div>
   );
 }

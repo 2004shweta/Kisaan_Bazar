@@ -12,7 +12,7 @@ const Profile = ({ handleLogout }) => {
   }, []);
 
   return (
-    <div className="hero bg-base-200 min-h-screen flex items-center justify-center">
+    <div className="min-h-screen">
       {role === 'farmer' ? (
         <FarmerDash handleLogout={handleLogout} />
       ) : role === 'contractor' ? (
